@@ -48,10 +48,10 @@ class ProductService {
     return product;
   }
   async listProducts() {
-    return new Promise((resolve, reject) => {
+    return new Promise((resolve) => {
       setTimeout(() => {
         resolve(this.products);
-      }, 500);
+      }, 100);
     });
 
   }
