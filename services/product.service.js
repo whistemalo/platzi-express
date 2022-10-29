@@ -1,5 +1,10 @@
-const { randProduct } = require('@ngneat/falso');
+
+const { randNumber } = require ('@ngneat/falso');
 const { randUuid } = require ('@ngneat/falso');
+const { randImg } = require ('@ngneat/falso');
+const { randProductName } = require ('@ngneat/falso');
+const { randBoolean } = require ('@ngneat/falso');
+const boom = require('@hapi/boom');
 
 class ProductService {
   constructor() {
@@ -11,7 +16,13 @@ class ProductService {
     const limite = 100;
 
     for (let i = 0; i < limite; i++) {
-      this.products.push(randProduct());
+      this.products.push({
+        id: randUuid(),
+        name: randProductName(),
+        price: randNumber({ min: 10, max: 1000 }),
+        image: randImg(),
+        isBlock: randBoolean(),
+      });
     }
   }
 
@@ -25,23 +36,29 @@ class ProductService {
   }
   async findProductById(id) {
     const product = this.products.find((product) => product.id === id);
+
     if (!product) {
-      throw new Error('Producto no encontrado');
+      throw boom.notFound('Producto no encontrado');
     }
-    return this.products.find((product) => product.id === id);
+
+    if (product.isBlock) {
+      throw boom.conflict('Producto bloqueado');
+    }
+
+    return product;
   }
   async listProducts() {
     return new Promise((resolve, reject) => {
       setTimeout(() => {
         resolve(this.products);
-      }, 5000);
+      }, 500);
     });
 
   }
   async updateProduct(id, product) {
     const index = this.products.findIndex((product) => product.id === id);
     if (index === -1) {
-      throw new Error('Producto no encontrado');
+      throw boom.notFound('Producto no encontrado para avtualizar');
     }
     const productOld = this.products[index];
     this.products[index] = {
@@ -53,7 +70,7 @@ class ProductService {
   async deleteProduct(id) {
     const index = this.products.findIndex((product) => product.id === id);
     if (index === -1) {
-      throw new Error('Producto no encontrado');
+      throw boom.notFound('Producto no encontrado');
     }
     this.products.splice(index, 1);
     return { id };
