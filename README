@@ -25,5 +25,16 @@ Por ejemplo, si un campo de contador de incremento automático es una parte inte
 
 PATCH (como POST) puede tener efectos secundarios sobre otros recursos.
 
- >Los endpoints son las URLs de un API o un backend que responden a una petición. Los mismos entrypoints tienen que calzar con un endpoint para existir. Algo debe responder para que se renderice un sitio con sentido para el visitante.
+ >### Los endpoints son las URLs de un API o un backend que responden a una petición. Los mismos entrypoints tienen que calzar con un endpoint para existir. Algo debe responder para que se renderice un sitio con sentido para el visitante.
+
+## Middleware:
+⠀⠀
+#### El término middleware se refiere a un sistema de software que ofrece servicios y funciones comunes para las aplicaciones. En general, el middleware se encarga de las tareas de gestión de datos, servicios de aplicaciones, mensajería, autenticación y gestión de API.
+⠀⠀⠀
+#### Ayuda a los desarrolladores a diseñar aplicaciones con mayor eficiencia. Además, actúa como hilo conductor entre las aplicaciones, los datos y los usuarios.
+
+
+### Status Code
+> https://2a316z1f16h02cda9nrufi1q-wpengine.netdna-ssl.com/wp-content/uploads/HTTP-Response-Cheat-Sheet.png
+
 

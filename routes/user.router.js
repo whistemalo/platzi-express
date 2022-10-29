@@ -18,5 +18,23 @@ router.get('/', (req, res) => {
   }
 });
 
+router.patch('/:id', (req, res) => {
+  const { id } = req.params;
+  const { body } = req;
+  res.json({
+    message: 'Usuario actualizado',
+    data: body,
+    id,
+  })
+});
+
+router.delete('/:id', (req, res) => {
+  const { id } = req.params;
+  res.json({
+    message: 'Usuario eliminado',
+    id,
+  })
+});
+
 
 module.exports = router;

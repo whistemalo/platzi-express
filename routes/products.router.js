@@ -1,31 +1,53 @@
 const express = require('express');
-const { randProduct } = require('@ngneat/falso');
+
+const ProductService = require('../services/product.service');
 
 const router = express.Router();
+const service = new ProductService();
 
-router.get('/', (req, res) => {
-  const productos = [];
-  const { size } = req.query;
-  const limite = size ? parseInt(size) : 10;
+//para enviar datos por post se puede utilizar localhost/users?limit=10&offset=20
+router.get('/', async (req, res) => {
+  const productos = await service.listProducts();
+  res.status(200).json({ productos });
+});
 
-  for (let i = 0; i < limite; i++) {
-    productos.push(randProduct());
+router.get('/filter', async (req, res) => {
+  res.status(200).send('yo soy el filtro');
+});
+
+router.get('/:id', async (req, res) => {
+  try {
+    const { id } = req.params;
+    const product = await service.findProductById(id);
+    res.status(200).json(product);
+  } catch (error) {
+    res.status(404).send({ message: error.message });
   }
-  res.json({ productos });
 });
 
-router.get('/filter', (req, res) => {
-  res.send('yo soy el filtro');
+router.post('/', async (req, res) => {
+  const { body } = req;
+  const newProduct = await service.createProduct(body);
+  res.status(201).json(newProduct);
 });
 
-router.get('/:id', (req, res) => {
+router.patch('/:id', async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { body } = req;
+    res.status(201).json(await service.updateProduct(id, body));
+  } catch (error) {
+    res.status(404).send({
+      message: error.message,
+    });
+  }
+});
+
+router.delete('/:id', async (req, res) => {
   const { id } = req.params;
-  res.json({
-    producto: {
-      nombre: `Producto ${id}`,
-      precio: 100 * +id,
-    },
-  });
+  res.status(200).json(await service.deleteProduct(id));
 });
+
+
 
 module.exports = router;
