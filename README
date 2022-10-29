@@ -1,19 +1,19 @@
-# Notas sobre el desarrollo
+  #  Notas sobre el desarrollo
 
-## ¿Que es una api rest?
-  - REST: Representational State Transfer
-> Es una conveccion que se refiere a servicios web por protocolo HTTP
+  ## ¿Que es una api rest?
+    - REST: Representational State Transfer
+   Es una conveccion que se refiere a servicios web por protocolo HTTP
 
-## Metodos:
+  ## Metodos:
 
-  - Get: Obtener
-  - Put: Modificar/Actualizar
-  - Patch: Modificar/Actualizar
-  - Post: Crear
-  - Delete: Eliminar
-  - Patch
+    - Get: Obtener
+    - Put: Modificar/Actualizar
+    - Patch: Modificar/Actualizar
+    - Post: Crear
+    - Delete: Eliminar
+    - Patch
 
-> El método de solicitud HTTP PATCH aplica modificaciones parciales a un recurso.
+   El método de solicitud HTTP PATCH aplica modificaciones parciales a un recurso.
 
 PATCH es algo análogo al concepto de “actualización” que se encuentra en CRUD, Una solicitud se considera un conjunto de instrucciones sobre cómo modificar un recurso. Contrasta esto con PUT; que es una representación completa de un recurso.PATCH
 
@@ -24,3 +24,6 @@ La palabra “idempotente” significa que cualquier número de solicitudes repe
 Por ejemplo, si un campo de contador de incremento automático es una parte integral del recurso, entonces un PUT lo sobrescribirá naturalmente (ya que sobrescribe todo), pero no necesariamente para .PATCH
 
 PATCH (como POST) puede tener efectos secundarios sobre otros recursos.
+
+ >Los endpoints son las URLs de un API o un backend que responden a una petición. Los mismos entrypoints tienen que calzar con un endpoint para existir. Algo debe responder para que se renderice un sitio con sentido para el visitante.
+
