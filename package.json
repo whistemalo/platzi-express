@@ -19,6 +19,7 @@
   "author": "Williams Amaya <whsitemalo@gmail.com>",
   "license": "ISC",
   "dependencies": {
+    "lodash": "^4.17.21",
     "@hapi/boom": "^10.0.0",
     "@ngneat/falso": "^6.1.0",
     "cors": "^2.8.5",
