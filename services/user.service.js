@@ -7,6 +7,8 @@ const {
 } = require('@ngneat/falso');
 const lodash = require('lodash');
 
+const getConnection = require('../lib/postgres')
+
 class UserService {
   constructor() {
     (this.users = []), this.generator();
@@ -25,7 +27,9 @@ class UserService {
   }
 
   async listUsers() {
-    return this.users;
+     const client = await getConnection();
+     const rta = await client.query('SELECT * FROM task');
+     return rta.rows;
   }
 
   async createUser(user) {
@@ -38,6 +42,7 @@ class UserService {
   }
 
   async findUserById(id) {
+
     const user = this.users.find((user) => user.id === id);
 
     if (!user) {

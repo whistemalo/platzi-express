@@ -6,10 +6,14 @@ const { randProductName } = require ('@ngneat/falso');
 const { randBoolean } = require ('@ngneat/falso');
 const boom = require('@hapi/boom');
 
+const sequelize = require('../lib/sequelize');
+
 class ProductService {
   constructor() {
     this.products = [];
     this.generator();
+
+
   }
 
   generator() {
@@ -48,11 +52,17 @@ class ProductService {
     return product;
   }
   async listProducts() {
-    return new Promise((resolve) => {
-      setTimeout(() => {
-        resolve(this.products);
-      }, 100);
-    });
+    const query =  'SELECT * FROM task';
+    const [data,metadata] = await sequelize.query(query);
+    return {
+      data,
+      metadata
+    }
+    // return new Promise((resolve) => {
+    //   setTimeout(() => {
+    //     resolve(this.products);
+    //   }, 100);
+    // });
 
   }
   async updateProduct(id, product) {
