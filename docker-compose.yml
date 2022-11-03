@@ -7,14 +7,15 @@ services:
       POSTGRES_DB: ${DB_NAME}
       POSTGRES_USER: ${DB_USER}
       POSTGRES_PASSWORD: ${DB_PASSWORD}
-
     ports:
       - 5432:5432
     expose:
       - '5432'
-
+    networks:
+        - broadcom
     volumes:
-      - ./database:/var/lib/postgresql/data
+      - ./postgres_volume:/var/lib/postgresql/data
+
   pgadmin:
     image: dpage/pgadmin4
     environment:
@@ -22,4 +23,71 @@ services:
       PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD}
     ports:
       - ${PGADMIN_DEFAULT_PORT}:80
+    networks:
+        - broadcom
+  mysql:
+    image: mysql
+    expose:
+      - '3306'
+    environment:
+      MYSQL_ROOT_PASSWORD: '${DB_PASSWORD}'
+      MYSQL_ROOT_HOST: "%"
+      MYSQL_DATABASE: '${DB_NAME}'
+      MYSQL_USER: 'amaya'
+      MYSQL_PASSWORD: admin123
+      MYSQL_ALLOW_EMPTY_PASSWORD: 1
+    ports:
+      - 3309:3306
+    networks:
+        - broadcom
+    volumes:
+      - ./mysql_volume:/var/lib/mysql
+
+  phpmyadmin:
+    image: phpmyadmin:latest
+    ports:
+        - 8080:80
+    environment:
+        MYSQL_ROOT_PASSWOR: '${DB_PASSWORD}'
+        PMA_HOST: mysql
+        PMA_PORT: 3306
+    links:
+        - "mysql:db"
+    depends_on:
+        - mysql
+    networks:
+        - broadcom
+networks:
+    broadcom:
+        driver: bridge
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 

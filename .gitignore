@@ -60,7 +60,8 @@ build/Release
 # Dependency directories
 node_modules/
 jspm_packages/
-database/
+mysql_volume/
+postgres_volume/
 
 # Snowpack dependency directory (https://snowpack.dev/)
 web_modules/

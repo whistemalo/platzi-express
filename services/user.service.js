@@ -7,8 +7,9 @@ const {
 } = require('@ngneat/falso');
 const lodash = require('lodash');
 
-const getConnection = require('../lib/postgres')
-
+// const getConnection = require('../lib/postgres')
+//resulta que cada vez que en sequializa
+const {models} = require('../lib/sequelize')
 class UserService {
   constructor() {
     (this.users = []), this.generator();
@@ -27,50 +28,50 @@ class UserService {
   }
 
   async listUsers() {
-     const client = await getConnection();
-     const rta = await client.query('SELECT * FROM task');
-     return rta.rows;
+     const rta = await models.User.findAll();
+     return rta;
   }
 
   async createUser(user) {
-    const createNewUser = {
-      id: randUuid(),
-      ...user,
-    };
-    this.user.push(createNewUser);
+    const createNewUser = await models.User.create(user)
     return createNewUser;
   }
 
   async findUserById(id) {
 
-    const user = this.users.find((user) => user.id === id);
-
+    const user = await models.User.findByPk(id)
     if (!user) {
       throw boom.notFound('Usuario no encontrado');
     }
     return user;
   }
 
-  async updateUserByI(user, id) {
-    const index = this.users.findIndex((product) => product.id === id);
-    if (index === -1) {
+  async updateUserByI(id, changes) {
+    const user = await models.User.findByPk(id);
+    if (!user) {
       throw boom.notFound('Usuario no encontrado');
     }
-    const userOld = this.users[index];
-    this.users[index] = {
-      ...userOld,
-      ...user,
-    };
-    return this.user[index];
+    const rta = await user.update(changes)
+    return rta
+
+    // const index = this.users.findIndex((product) => product.id === id);
+    // if (index === -1) {
+    //   throw boom.notFound('Usuario no encontrado');
+    // }
+    // const userOld = this.users[index];
+    // this.users[index] = {
+    //   ...userOld,
+    //   ...user,
+    // };
+    // return this.user[index];
   }
 
   async deleteUserById(id) {
-    const index = this.users.findIndex((product) => product.id === id);
-    if (index === -1) {
-      console.log('retorna');
-      throw boom.notFound('Usuario no encontrado');
-    }
-    this.users.splice(index, 1);
+     const user = await models.User.findByPk(id);
+     if (!user) {
+       throw boom.notFound('Usuario no encontrado');
+     }
+     await user.destroy()
     return { id };
   }
 }
